@@ -1,19 +1,27 @@
 function insert(num) {
     document.form.textview.value = document.form.textview.value + num;
+    document.form_new.textview_new.value = (document.form_new.textview_new.value + num).replace(/\//g, '÷').replace(/\*/g, '×');
 }
 function clean() {
     document.form.textview.value = '';
+    document.form_new.textview_new.value = '';
 }
 function back() {
-    let exp = document.form.textview.value;
+    let exp = document.form.textview.value,
+    exp_new = document.form_new.textview_new.value;
     document.form.textview.value = exp.substring(0, exp.length - 1);
+    if (exp_new.slice(-1) === ' ') {
+        document.form_new.textview_new.value =  exp_new.substring(0, exp_new.length - 2);
+    } else {
+        document.form_new.textview_new.value =  exp_new.substring(0, exp_new.length - 1);
+    }
 }
 function equal() {
-
     let answer = document.querySelector('.answer'),
-        exp = document.form.textview.value;
+        exp = document.form.textview.value
     if (exp) {
-        answer.innerText = `${exp} = ${eval(exp)}`;
+        let result = exp.replace(/\//g, ' ÷ ').replace(/\*/g, ' × ').replace(/-/g, ' - ').replace(/\+/g, ' + ');
+        answer.innerText = `${result} = ${eval(exp)}`;
     }
 }
 
@@ -69,3 +77,5 @@ button.onclick = function () {
         "</tr>" +
         "</table>" + "<div style='position: absolute; top: 35px;'>+</div>";
 };
+
+
